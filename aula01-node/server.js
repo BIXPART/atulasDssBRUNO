@@ -1,7 +1,7 @@
 import express from 'express'
 const app = express();
 const port = 3000;
-import './src/database/sqlConnection.js';
+import sequelize from './src/database/sqlConnection.js';
 
 app.get("/",(req,res)=>{
     res.send({mesage:"servidor ativo!"})
@@ -9,6 +9,15 @@ app.get("/",(req,res)=>{
 
 app.get("/hello",(req,res)=>{
     res.send({mesage:"Hello wolrd"})
+});
+
+app.get("/sql", async (req,res)=>{
+    try{
+        await sequelize.authenticate()
+        console.log("conexão estabelecida com o server com sucesso");
+    }catch(error){
+        console.error(`erro ao conectar: ${error}`)
+    }
 });
 
 app.get("/info",(req,res)=>{
