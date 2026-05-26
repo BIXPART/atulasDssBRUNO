@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste API Node + Sequelize</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Teste API - Products & Categories</h1>
+
+    <div class="container">
+      <!-- CATEGORY -->
+      <div class="card">
+        <h2>Categoria</h2>
+
+        <input type="text" id="categoryId" placeholder="ID" />
+        <input type="text" id="categoryName" placeholder="Nome" />
+        <input type="text" id="categoryDescription" placeholder="Descrição" />
+
+        <button class="create" onclick="createCategory()">
+          Criar Categoria
+        </button>
+        <button class="get" onclick="getCategories()">Listar Categorias</button>
+        <button class="get" onclick="getCategoryById()">
+          Buscar Categoria
+        </button>
+        <button class="update" onclick="updateCategory()">
+          Atualizar Categoria
+        </button>
+        <button class="delete" onclick="deleteCategory()">
+          Deletar Categoria
+        </button>
+
+        <div id="categoryResponse" class="response"></div>
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="card">
+        <h2>Produto</h2>
+
+        <input type="text" id="productId" placeholder="ID" />
+        <input type="text" id="productName" placeholder="Nome" />
+        <input type="number" id="productPrice" placeholder="Preço" />
+        <input type="number" id="productCategoryId" placeholder="Category ID" />
+
+        <button class="create" onclick="createProduct()">Criar Produto</button>
+        <button class="get" onclick="getProducts()">Listar Produtos</button>
+        <button class="get" onclick="getProductById()">Buscar Produto</button>
+        <button class="update" onclick="updateProduct()">
+          Atualizar Produto
+        </button>
+        <button class="delete" onclick="deleteProduct()">
+          Deletar Produto
+        </button>
+
+        <div id="productResponse" class="response"></div>
+      </div>
+    </div>
+
+    <script>
+      const API = 'http://localhost:3000';
+
+      function showResponse(elementId, data, success = true) {
+        const element = document.getElementById(elementId);
+
+        element.className = success ? 'response success' : 'response error';
+
+        element.innerText = JSON.stringify(data, null, 2);
+      }
+
+      // =========================
+      // CATEGORY
+      // =========================
+
+      async function createCategory() {
+        try {
+          const name = document.getElementById('categoryName').value;
+          const description = document.getElementById(
+            'categoryDescription',
+          ).value;
+
+          const response = await fetch(`${API}/categories`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name,
+              description,
+            }),
+          });
+
+          const data = await response.json();
+
+          showResponse('categoryResponse', data, response.ok);
+        } catch (error) {
+          showResponse('categoryResponse', error.message, false);
+        }
+      }
+
+      async function getCategories() {
+        try {
+          const response = await fetch(`${API}/categories`);
+
+          const data = await response.json();
+
+          showResponse('categoryResponse', data, response.ok);
+        } catch (error) {
+          showResponse('categoryResponse', error.message, false);
+        }
+      }
+
+      async function getCategoryById() {
+        try {
+          const id = document.getElementById('categoryId').value;
+
+          const response = await fetch(`${API}/categories/${id}`);
+
+          const data = await response.json();
+
+          showResponse('categoryResponse', data, response.ok);
+        } catch (error) {
+          showResponse('categoryResponse', error.message, false);
+        }
+      }
+
+      async function updateCategory() {
+        try {
+          const id = document.getElementById('categoryId').value;
+          const name = document.getElementById('categoryName').value;
+          const description = document.getElementById(
+            'categoryDescription',
+          ).value;
+
+          const response = await fetch(`${API}/categories/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name,
+              description,
+            }),
+          });
+
+          const data = await response.json();
+
+          showResponse('categoryResponse', data, response.ok);
+        } catch (error) {
+          showResponse('categoryResponse', error.message, false);
+        }
+      }
+
+      async function deleteCategory() {
+        try {
+          const id = document.getElementById('categoryId').value;
+
+          const response = await fetch(`${API}/categories/${id}`, {
+            method: 'DELETE',
+          });
+
+          const data = await response.json();
+
+          showResponse('categoryResponse', data, response.ok);
+        } catch (error) {
+          showResponse('categoryResponse', error.message, false);
+        }
+      }
+
+      // =========================
+      // PRODUCT
+      // =========================
+
+      async function createProduct() {
+        try {
+          const name = document.getElementById('productName').value;
+          const price = document.getElementById('productPrice').value;
+          const categoryId = document.getElementById('productCategoryId').value;
+
+          const response = await fetch(`${API}/products`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name,
+              price,
+              categoryId,
+            }),
+          });
+
+          const data = await response.json();
+
+          showResponse('productResponse', data, response.ok);
+        } catch (error) {
+          showResponse('productResponse', error.message, false);
+        }
+      }
+
+      async function getProducts() {
+        try {
+          const response = await fetch(`${API}/products`);
+
+          const data = await response.json();
+
+          showResponse('productResponse', data, response.ok);
+        } catch (error) {
+          showResponse('productResponse', error.message, false);
+        }
+      }
+
+      async function getProductById() {
+        try {
+          const id = document.getElementById('productId').value;
+
+          const response = await fetch(`${API}/products/${id}`);
+
+          const data = await response.json();
+
+          showResponse('productResponse', data, response.ok);
+        } catch (error) {
+          showResponse('productResponse', error.message, false);
+        }
+      }
+
+      async function updateProduct() {
+        try {
+          const id = document.getElementById('productId').value;
+          const name = document.getElementById('productName').value;
+          const price = document.getElementById('productPrice').value;
+          const categoryId = document.getElementById('productCategoryId').value;
+
+          const response = await fetch(`${API}/products/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name,
+              price,
+              categoryId,
+            }),
+          });
+
+          const data = await response.json();
+
+          showResponse('productResponse', data, response.ok);
+        } catch (error) {
+          showResponse('productResponse', error.message, false);
+        }
+      }
+
+      async function deleteProduct() {
+        try {
+          const id = document.getElementById('productId').value;
+
+          const response = await fetch(`${API}/products/${id}`, {
+            method: 'DELETE',
+          });
+
+          const data = await response.json();
+
+          showResponse('productResponse', data, response.ok);
+        } catch (error) {
+          showResponse('productResponse', error.message, false);
+        }
+      }
+    </script>
+  </body>
+</html>
