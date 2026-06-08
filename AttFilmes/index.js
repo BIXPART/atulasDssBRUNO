@@ -1,22 +1,13 @@
 const express = require('express');
 require('dotenv').config();
 const sequelize = require('./src/config/database');
-const movieController = require('./src/controllers/movieController');
+const routes = require('./src/config/routes');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Movie API');
-});
-
-app.post('/movies', movieController.create);
-app.get('/movies', movieController.findAll);
-app.get('/movies/:id', movieController.findById);
-app.put('/movies/:id', movieController.update);
-app.delete('/movies/:id', movieController.delete);
+app.use(routes);
 
 sequelize.sync()
   .then(() => {
