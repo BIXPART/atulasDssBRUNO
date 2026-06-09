@@ -8,7 +8,6 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(routes);
-
 sequelize.sync()
   .then(() => {
     console.log('Banco de dados sincronizado.');
