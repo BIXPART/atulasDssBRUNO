@@ -35,7 +35,14 @@ BDD_PORT=5432
 PORT=3000
 ```
 
-4. Inicie o servidor:
+4. Acesse e crie o banco de dados no sql shell:
+
+```
+CREATE DATABASE filmes
+\c filmes
+```
+
+5. Inicie o servidor:
 
 ```bash
 node index.js
