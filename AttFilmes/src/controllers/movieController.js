@@ -2,7 +2,7 @@ const Movie = require('../models/Movie');
 
 exports.create = async (req, res) => {
   try {
-    const { title, year, genre, director } = req.body;
+    const { title, year, genre, director,watched} = req.body;
 
     if (!title || !title.trim()) {
       return res.status(400).json({
@@ -12,7 +12,7 @@ exports.create = async (req, res) => {
       });
     }
 
-    const movie = await Movie.create({ title: title.trim(), year, genre, director });
+    const movie = await Movie.create({ title: title.trim(), year, genre, director, watched });
 
     return res.status(201).json({
       success: true,
@@ -76,7 +76,7 @@ exports.findById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, year, genre, director } = req.body;
+    const { title, year, genre, director, watched } = req.body;
 
     const movie = await Movie.findByPk(id);
     if (!movie) {
@@ -95,7 +95,7 @@ exports.update = async (req, res) => {
       });
     }
 
-    await movie.update({ title: title.trim(), year, genre, director });
+    await movie.update({ title: title.trim(), year, genre, director, watched });
 
     return res.status(200).json({
       success: true,
