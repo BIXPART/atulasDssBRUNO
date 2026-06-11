@@ -8,13 +8,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(routes);
-sequelize.sync()
-  .then(() => {
-    console.log('Banco de dados sincronizado.');
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.error('Erro ao conectar ao banco:', err);
-  });
+
+routes(app)
+
+app.listen(port,()=>{console.log("Rodando na porta: ",port);
+})
