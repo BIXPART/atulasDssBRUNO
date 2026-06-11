@@ -8,8 +8,15 @@ const port = 3000;
 
 app.use(express.json());
 
-routes(app);
-
-app.listen(port, () => {
-  console.log("Rodando na porta:", port)
-});
+(async () => {
+  try {
+    await sequelize.sync();
+    console.log('Banco sincronizado.');
+    routes(app);
+    app.listen(port, () => {
+      console.log("Rodando na porta:", port);
+    });
+  } catch (err) {
+    console.error('Erro ao iniciar:', err);
+  }
+})();

@@ -38,6 +38,7 @@ exports.findAll = async (req, res) => {
       message: movies.length ? 'Filmes listados com sucesso.' : 'Nenhum filme encontrado.',
     });
   } catch (error) {
+    console.error('Erro ao listar filmes:', error.message);
     return res.status(500).json({
       success: false,
       data: null,
