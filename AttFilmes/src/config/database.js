@@ -1,12 +1,12 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  process.env.BDD_NAME || 'postgres',
-  process.env.BDD_USER || 'postgres',
-  process.env.BDD_PASS || '',
+  process.env.BDD_NAME,
+  process.env.BDD_USER,
+  process.env.BDD_PASS,
   {
-    host: process.env.BDD_HOST || 'localhost',
-    port: process.env.BDD_PORT || 5432,
+    host: process.env.BDD_HOST,
+    port: process.env.BDD_PORT,
     dialect: 'postgres',
     logging: false,
   }

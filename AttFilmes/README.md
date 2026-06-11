@@ -29,13 +29,19 @@ npm install
 ```env
 BDD_PASS=sua_senha
 BDD_USER=postgres
-BDD_NAME=postgres
+BDD_NAME=filmes
 BDD_HOST=localhost
-BDD_PORT=5432
-PORT=3000
+BDD_PORT=5433
 ```
 
-4. Inicie o servidor:
+4. Acesse e crie o banco de dados no sql shell:
+
+```
+CREATE DATABASE filmes
+\c filmes
+```
+
+5. Inicie o servidor:
 
 ```bash
 node index.js
