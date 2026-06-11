@@ -1,12 +1,12 @@
-# MovieTime API
+# AttFilmes API
 
 API REST para cadastro de filmes com Node.js, Express, Sequelize e PostgreSQL.
 
 ## Tecnologias
 
 - Node.js
-- Express
-- Sequelize
+- Express 5
+- Sequelize 6
 - PostgreSQL
 
 ## Como rodar o projeto
@@ -34,20 +34,41 @@ BDD_HOST=localhost
 BDD_PORT=5433
 ```
 
-4. Acesse e crie o banco de dados no sql shell:
+4. Crie o banco de dados no PostgreSQL:
 
-```
-CREATE DATABASE filmes
-\c filmes
+```sql
+CREATE DATABASE filmes;
 ```
 
 5. Inicie o servidor:
 
 ```bash
-node index.js
+npm start
 ```
 
-O servidor será iniciado em `http://localhost:3000`.
+O servidor será iniciado em `http://localhost:3000`. A tabela é criada automaticamente ao iniciar.
+
+## Script de apresentação
+
+Execute `apresentacao.bat` (com o servidor rodando) para demonstrar todas as rotas automaticamente.
+
+## Estrutura do projeto
+
+```
+AttFilmes/
+├── index.js              # Entrada do servidor
+├── src/
+│   ├── config/
+│   │   ├── database.js   # Conexão com PostgreSQL
+│   │   └── routes.js     # Definição das rotas
+│   ├── controllers/
+│   │   └── movieController.js
+│   └── models/
+│       └── Movie.js      # Modelo da tabela filmes
+├── .env                  # Credenciais do banco
+├── apresentacao.bat      # Script de demonstração
+└── package.json
+```
 
 ## Endpoints
 
@@ -61,7 +82,8 @@ O servidor será iniciado em `http://localhost:3000`.
   "title": "Homem-Aranha",
   "year": 2002,
   "genre": "Ação",
-  "director": "Sam Raimi"
+  "director": "Sam Raimi",
+  "watched": false
 }
 
 // Response 201
@@ -73,6 +95,7 @@ O servidor será iniciado em `http://localhost:3000`.
     "year": 2002,
     "genre": "Ação",
     "director": "Sam Raimi",
+    "watched": false,
     "updatedAt": "2026-06-01T...",
     "createdAt": "2026-06-01T..."
   },
@@ -94,7 +117,8 @@ O servidor será iniciado em `http://localhost:3000`.
       "title": "Homem-Aranha",
       "year": 2002,
       "genre": "Ação",
-      "director": "Sam Raimi"
+      "director": "Sam Raimi",
+      "watched": false
     }
   ],
   "message": "Filmes listados com sucesso."
@@ -114,7 +138,8 @@ O servidor será iniciado em `http://localhost:3000`.
     "title": "Homem-Aranha",
     "year": 2002,
     "genre": "Ação",
-    "director": "Sam Raimi"
+    "director": "Sam Raimi",
+    "watched": false
   },
   "message": "Filme encontrado com sucesso."
 }
@@ -137,7 +162,8 @@ O servidor será iniciado em `http://localhost:3000`.
   "title": "Homem-Aranha 2",
   "year": 2004,
   "genre": "Ação",
-  "director": "Sam Raimi"
+  "director": "Sam Raimi",
+  "watched": true
 }
 
 // Response 200
@@ -148,7 +174,8 @@ O servidor será iniciado em `http://localhost:3000`.
     "title": "Homem-Aranha 2",
     "year": 2004,
     "genre": "Ação",
-    "director": "Sam Raimi"
+    "director": "Sam Raimi",
+    "watched": true
   },
   "message": "Filme atualizado com sucesso."
 }
@@ -176,9 +203,11 @@ O servidor será iniciado em `http://localhost:3000`.
 
 ## Validações
 
-- O campo `title` é obrigatório (retorna **400** se vazio ou ausente).
-- IDs inexistentes retornam **404**.
-- Erros internos retornam **500**.
+| Situação | Status | Resposta |
+|---|---|---|
+| Title ausente/vazio | **400** | `success: false` |
+| ID inexistente | **404** | `success: false` |
+| Erro interno | **500** | `success: false` |
 
 ## Dependências
 
