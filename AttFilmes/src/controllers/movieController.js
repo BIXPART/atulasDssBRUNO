@@ -140,3 +140,20 @@ exports.delete = async (req, res) => {
     });
   }
 };
+
+exports.deleteAll = async (req, res) => {
+  try {
+    await Movie.destroy({ where: {} });
+    return res.status(200).json({
+      success: true,
+      data: null,
+      message: 'Todos os filmes foram removidos com sucesso.',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: 'Erro interno do servidor.',
+    });
+  }
+};
