@@ -6,7 +6,7 @@ const JWT_SECRET = 'MINHA_SUPER_CHAVE';
 const authController = {
   register: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, role } = req.body;
 
       const userExists = await User.findOne({
         where: { email },
@@ -23,6 +23,7 @@ const authController = {
       const user = await User.create({
         email,
         password: hashedPassword,
+        role: role || 'user'
       });
 
       res.status(201).json({
@@ -62,6 +63,7 @@ const authController = {
         {
           id: user.id,
           email: user.email,
+          role: user.role
         },
         JWT_SECRET,
         {

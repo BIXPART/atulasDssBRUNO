@@ -11,6 +11,10 @@ const User = banco.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  role:{
+    type: DataTypes.STRING,
+    allowNull:true
+  }
 });
 
 export default User;

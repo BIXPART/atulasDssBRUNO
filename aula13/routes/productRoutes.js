@@ -5,10 +5,10 @@ import authMiddleware from '../middleware/authMiddleware.js';
 const productRoutes = Router();
 
 // GET ALL
-productRoutes.get('/', productController.getAll);
+productRoutes.get('/',authMiddleware, productController.getAll);
 
 // GET BY ID
-productRoutes.get('/:id', productController.getById);
+productRoutes.get('/:id',authMiddleware, productController.getById);
 
 // CREATE
 productRoutes.post('/',authMiddleware, productController.create);

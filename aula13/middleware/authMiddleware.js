@@ -13,7 +13,7 @@ export default function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token,"MINHA_SUPER_CHAVE");
-    req.userID = decoded.id;
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({ success: false, error: "token invalido" });
